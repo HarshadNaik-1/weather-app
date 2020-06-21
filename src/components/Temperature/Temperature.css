@@ -1,0 +1,29 @@
+.temp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+}
+/* button {
+  border: 1px solid #fff;
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+  outline: none;
+  text-decoration: none;
+  padding: 6px 10px;
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.12);
+} */
+
+.high {
+  color: red;
+  border: 1px solid #000;
+  padding: 10px;
+}
+.low {
+  color: rgb(138, 138, 138);
+  border: 1px solid #000;
+  padding: 10px;
+}
