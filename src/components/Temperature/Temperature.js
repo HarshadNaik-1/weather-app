@@ -1,30 +1,33 @@
-import React, { Component } from "react";
-import "./Temperature.css";
-import TempValues from "./TempValues";
+import React, { useState } from 'react';
+import './Temperature.css';
+import TempValues from './TempValues';
 
-class Temperature extends Component {
-  state = {
-    maxTemp: 0,
-    minTemp: 0,
-  };
-  render() {
-    let { maxTemp, minTemp } = this.state;
-    //enter the key here inside the quotation
-    let apiKey = "";
+const url =
+  'http://api.openweathermap.org/data/2.5/weather?id=1275339&units=metric&limit=10&APPID=';
 
-    fetch(
-      "http://api.openweathermap.org/data/2.5/weather?id=1275339&units=metric&limit=10&APPID=" +
-        apiKey
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ maxTemp: data.main.temp_max });
-        // console.log(maxTemp);
-        this.setState({ minTemp: data.main.temp_min });
-        // console.log(minTemp);
-      }, setInterval(100000));
+const Temperature = () => {
+  const [minTemp, setMinTemp] = useState(null);
+  const [maxTemp, setMaxTemp] = useState(null);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
-    return <TempValues max={maxTemp} min={minTemp} />;
-  }
+  useEffect(() => {
+    const effect = async () => {
+      const res = await fetch(url);
+      const data = await res.json();
+      setMaxTemp(data.main.temp_max);
+      setMinTemp(data.main.temp_min);
+    }
+    effect();
+    const update = setTimeout(
+      () => setUpdateCounter(pS => pS++),
+      15 * 60 * 60 * 1000
+    );
+    return () => clearTimeout(update)
+  }, [updateCounter])
+
+  if (!minTemp || !maxTemp) return <p>Loading Temperatures...</p>
+
+  return <TempValues max={maxTemp} min={minTemp} />
 }
-export default Temperature;
+
+export default Temperature
